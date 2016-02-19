@@ -6,7 +6,6 @@
 
 # add oh-my-zsh
 !.zshrc
-!.zsh_history
 
 # add spacemacs
 !.spacemacs
