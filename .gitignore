@@ -1,0 +1,16 @@
+# ignore all file
+*
+
+# add .gitignore
+!.gitignore
+
+# add oh-my-zsh
+!.zshrc
+
+# add spacemacs
+!.spacemacs
+
+# add spf13-vim
+!.vimrc.local
+!.vimrc.bundles.local
+!.vimrc.before.local
