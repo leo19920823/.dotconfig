@@ -81,6 +81,6 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 alias gmnf='git merge --no-ff'
-alias gcoa='git checkout -b'
+alias gcob='git checkout -b'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
