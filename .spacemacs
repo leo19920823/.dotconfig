@@ -37,6 +37,7 @@ values."
      syntax-checking
      version-control
      themes-megapack
+     gtags
 
      html
      php
