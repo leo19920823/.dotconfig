@@ -28,7 +28,8 @@ values."
      emacs-lisp
      git
      markdown
-     org
+     (org :variables
+          org-enable-github-support t)
      (shell :variables
             shell-default-term-shell "/bin/zsh"
             shell-default-height 30
@@ -246,12 +247,45 @@ values."
 It is called immediately after `dotspacemacs/init'.  You are free to put almost
 any user code here.  The exception is org related code, which should be placed
 in `dotspacemacs/user-config'."
+
   )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
+  ;; todo list
+  (setq org-agenda-files (list "~/org/home.org"
+                               "~/org/work.org"
+                               "~/org/study.org"
+                               "~/org/leisure.org"
+                               "~/org/journal.org"
+                               "~/org/inspiration.org"
+                               "~/org/notes.org"
+                               "~/org/todo.org"
+                               ))
+  ;; 绑定remember快捷键
+  (define-key global-map [f12] 'remember) 
+  ;; 更改列表符号
+  (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
+
+  ;; todo 状态信息
+  (setq org-todo-keywords
+        '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
+          ))
+
+  ;; 默认note路径
+  (setq org-default-notes-file (concat "~/notes.org"))
+
+  ;; capture list setup
+  (setq org-capture-templates '(
+                                ("l" "灵感" entry (file+headline "~/org/inspiration.org" "灵感")
+                                 "* %?\n  %i\n  %a")
+                                ("t" "TODO" entry (file+headline "~/org/todo.org" "Todos")
+                                 "* %?\n 输入于： %U\n  %i\n  %a")
+                                ("j" "日记" entry (file+datetree "~/org/journal.org")
+                                 "* %?\n输入于： %U\n  %i\n  %a")
+                                ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
