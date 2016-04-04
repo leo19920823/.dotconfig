@@ -18,6 +18,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     (javascript :variables javascript-disable-tern-port-files nil)
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -40,10 +41,12 @@ values."
      themes-megapack
      gtags
 
+     chinese
+
      html
      php
-
-     chinese
+     python
+     gnus
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -282,11 +285,118 @@ layers configuration. You are free to put any user code."
                                 ("l" "灵感" entry (file+headline "~/org/inspiration.org" "灵感")
                                  "* %?\n  %i\n  %a")
                                 ("t" "TODO" entry (file+headline "~/org/todo.org" "Todos")
-                                 "* %?\n 输入于： %U\n  %i\n  %a")
+                                 "* TODO %?\n 输入于： %U\n  %i\n  %a")
                                 ("j" "日记" entry (file+datetree "~/org/journal.org")
                                  "* %?\n输入于： %U\n  %i\n  %a")
                                 ))
+
+  ;; ;;;;;;;;;;;;;;;;;;
+  ;;   新闻组基本设定
+  ;; ;;;;;;;;;;;;;;;;;;
+  (setq user-full-name "leo")
+  (setq user-mail-address "467195537@qq.com")
+  (setq gnus-select-method '(nntp "news.newsfan.net"))
+
+  ;; ;;;;;;;;;;;;;;;;;;
+  ;;   语言环境设定
+  ;; ;;;;;;;;;;;;;;;;;;
+  (set-language-environment "UTF-8")
+
+  (setq gnus-default-charset 'chinese-iso-8bit
+        gnus-group-name-charset-group-alist '((".*" . cn-gb-2312))
+        gnus-summary-show-article-charset-alist
+        '(
+          (1 . cn-gb-2312)
+          (2 . gb18030)
+          (3 . chinese-iso-8bit)
+          (4 . gbk)
+          (5 . big5)
+          (6 . utf-8)
+          )
+        gnus-newsgroup-ignored-charsets
+        '(unknown-8bit x-unknown iso-8859-1))
+
+
+
+  ;; ;;;;;;;;;;;;;;;;;;
+  ;;自动显示图片
+  ;; ;;;;;;;;;;;;;;;;;;
+  (auto-image-file-mode)
+  (setq mm-inline-large-images t)
+  (add-to-list 'mm-attachment-override-types "image/*")
+
+
+  (setq gnus-posting-styles
+        '((".*"
+           (name "leo")
+           (address "467195537@qq.com")
+           (signature "http://blog.csdn.net/sheismylife\n UBuntu11.10、Emacs+Gnus\n")
+           ))
+        )
+
+  ;; set email reader 
+  (setq gnus-secondary-select-methods '((nnml ""))) 
+
+  ;; set pop server 
+  (setq mail-sources 
+        '((pop :server "POP.MAIL.YAHOO.COM"   ;; 在这里设置 pop3 服务器
+               :user "waterlin@ymail.com"     ;; 用户名
+               :port "pop3"
+               :password "password")))        ;; 密码
+
+  ;; set smtp 
+  (setq smtpmail-auth-credentials 
+        '(("SMTP.MAIL.YAHOO.COM"                ;; SMTP 服务器
+           25                                   ;; 端口号
+           "waterlin@ymail.com"                 ;; 用户名
+           "yourpassword")))                    ;; 密码
+
+  (setq smtpmail-default-smtp-server "SMTP.MAIL.YAHOO.COM") 
+  (setq smtpmail-smtp-server "SMTP.MAIL.YAHOO.COM") 
+  (setq message-send-mail-function 'smtpmail-send-it)
+
+  ;; (setq gnus-secondary-select-methods
+  ;;       '(
+  ;;         (nnimap "gmail"
+  ;;                 (nnimap-address
+  ;;                  "imap.gmail.com")
+  ;;                 (nnimap-server-port 993)
+  ;;                 (nnimap-stream ssl))
+  ;;         ))
+
+  ;; ;; Send email via Gmail:
+  ;; (setq message-send-mail-function 'smtpmail-send-it
+  ;;       smtpmail-default-smtp-server "smtp.gmail.com")
+
+  ;; ;; Archive outgoing email in Sent folder on imap.gmail.com:
+  ;; (setq gnus-message-archive-method '(nnimap "imap.gmail.com")
+  ;;       gnus-message-archive-group "[Gmail]/Sent Mail")
+
+  ;; ;; set return email address based on incoming email address
+  ;; (setq gnus-posting-styles
+  ;;       '(((header "to" "address@outlook.com")
+  ;;          (address "address@outlook.com"))
+  ;;         ((header "to" "address@gmail.com")
+  ;;          (address "address@gmail.com"))))
+
+  ;; ;; store email in ~/gmail directory
+  ;; (setq nnml-directory "~/gmail")
+  ;; (setq message-directory "~/gmail")
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(canlock-password "a5c800ed5e435dc3f55834ed2f1963f9eca55362"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
