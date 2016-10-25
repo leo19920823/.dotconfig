@@ -1,5 +1,7 @@
 # Path to your oh-my-zsh installation.
   export ZSH=$HOME/.oh-my-zsh
+  export EDITOR=/usr/bin/vim
+export CHEATCOLORS=true
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -49,7 +51,7 @@ ZSH_THEME="jonathan"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(svn sublime ubuntu vim-interaction git cp sudo extract z)
+plugins=(command-not-found composer perl redis-cli screen ssh-agent terminitor web-search svn sublime ubuntu vim-interaction git sudo python)
 
 # User configuration
 
