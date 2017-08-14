@@ -31,31 +31,36 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     html
-     php
-     gtags
-     javascript
-     python
-     markdown
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
+     react
+     gtags
+     javascript
+     markdown
+     helm
+     osx
      auto-completion
+     syntax-checking
+     (wakatime :variables
+               wakatime-api-key  "238d26fe-49ce-4ace-97c1-e16284a47f24"
+               ;; use the actual wakatime path
+               wakatime-cli-path "/usr/local/bin/wakatime")
+     better-defaults
+     ;; auto-completion
      ;; better-defaults
-     emacs-lisp
-     git
+     ;; git
      ;; markdown
+     ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     syntax-checking
+     ;; syntax-checking
      ;; version-control
-     php
-     (org :variables org-projectile-file "TODOs.org")
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -122,11 +127,10 @@ values."
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
-   ;; Example for 5 recent files and 7 projects: '((recents . 5) (projects . 7))
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   ;; (default nil)
-   dotspacemacs-startup-lists '()
+   dotspacemacs-startup-lists '((recents . 5)
+                                (projects . 7))
    ;; True if the home buffer should respond to resize events.
    dotspacemacs-startup-buffer-responsive t
    ;; Default major mode of the scratch buffer (default `text-mode')
@@ -159,7 +163,7 @@ values."
    ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key ","
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m)
+   ;; (default "C-M-m")
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs C-i, TAB and C-m, RET.
@@ -254,8 +258,18 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
-   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; Control line numbers activation.
+   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
+   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; This variable can also be set to a property list for finer control:
+   ;; '(:relative nil
+   ;;   :disabled-for-modes dired-mode
+   ;;                       doc-view-mode
+   ;;                       markdown-mode
+   ;;                       org-mode
+   ;;                       pdf-view-mode
+   ;;                       text-mode
+   ;;   :size-limit-kb 1000)
    ;; (default nil)
    dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
@@ -289,7 +303,23 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
+
+   ;; js-mode 
+   js2-basic-offset 2
+   js-indent-level 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2
    ))
+
+;; 设置元素属性两个空格
+(with-eval-after-load 'web-mode
+  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -307,34 +337,21 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
-  (setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-
-  (setq org-todo-keywords
-        '((sequence "TODO(t!)" "NEXT(n)" "WAITTING(w)" "SOMEDAY(s)" "|" "DONE(d@/!)" "ABORT(a@/!)")
-          ))
-  (setq org-agenda-files (list
-                          "~/org/notes.org"
-                          "~/org/todos.org"
-                          ))
-  ;; ;; capture list setup
-  (setq org-capture-templates '(
-  ;;                               ;; ("l" "灵感" entry (file+headline "~/org/inspiration.org" "灵感")
-  ;;                               ;; "* %?\n  %i\n  %a")
-                                ("t" "TODO" entry (file+headline "~/org/todos.org" "Todos")
-                                "* TODO %?\n 输入于： %U\n  %i\n  %a")
-                                ("j" "日记" entry (file+datetree "~/org/notes.org")
-                                "* %?\n输入于： %U\n  %i\n  %a")
-                                ))
-
-
-
-  ;; (with-eval-after-load 'org-agenda
-  ;;   (require 'org-projectile)
-  ;;   (push (org-projectile:todo-files) org-agenda-files)
-  ;;   )
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (haml-mode web-completion-data reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl wakatime-mode unfill mwim markdown-mode skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode pos-tip flycheck dash-functional tern company yasnippet auto-complete macrostep elisp-slime-nav auto-compile packed ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit spaceline slim-mode scss-mode sass-mode restart-emacs request rainbow-delimiters pug-mode popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text mmm-mode markdown-toc lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc info+ indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gtags helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gh-md ggtags fuzzy flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu emmet-mode dumb-jump define-word company-web company-tern company-statistics column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

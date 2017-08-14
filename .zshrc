@@ -86,3 +86,4 @@ alias gmnf='git merge --no-ff'
 alias gcob='git checkout -b'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
